@@ -32,10 +32,29 @@ const puppeteer = require('puppeteer');
         //obtención del texto de la ubicación que no se encuentra en una class pero está dentro de una "padre"
         const ubicacion = document.querySelector('.CasaVista__titulo + div').innerText;
 
+        //obtencion del precio  
+        const precio = Number(
+            document
+                .querySelector(".CasaVista__precio")
+                .innerText.replace(/[^0-9]/g, "")
+            );  
+            
+        //obtener listado de comodidades y transformar a clase    
+        const comodidades = [
+            ...document.querySelectorAll(".CasaVista__cuartos span"),
+        ].reduce( (acc, comodidad) => {
+            const [cantidad, nombre] = comodidad.innerText.split(" ");
+            acc[nombre] = Number(cantidad);
+
+            return acc;
+        }, {});
+
         return {
             imagenes,
             titulo,
-            ubicacion
+            ubicacion,
+            precio,
+            comodidades
         };
     });
 
