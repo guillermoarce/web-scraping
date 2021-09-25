@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { generarUsuario } = require('./generadorData')
 
 async function completarSignUp() {
     const browser = await puppeteer.launch({
@@ -18,11 +19,22 @@ async function completarSignUp() {
     const inputPassword = await page.$('form > input[name="password"]');
 
     //escribe texto en input
-    await inputEmail.type('garce@gmail.com');
-    await inputNombre.type('Guillermo Arce');
-    await inputUsername.type('garce');
-    await inputBio.type('Prueba de webscraping');
-    await inputPassword.type('mipassword');
+    // await inputEmail.type('garce@gmail.com');
+    // await inputNombre.type('Guillermo Arce');
+    // await inputUsername.type('garce');
+    // await inputBio.type('Prueba de webscraping');
+    // await inputPassword.type('mipassword');
+
+    /**
+     * Generacion de data de funcion random
+     */
+    const usuario = generarUsuario();
+
+    await inputEmail.type(usuario.email);
+    await inputNombre.type(usuario.nombre);
+    await inputUsername.type(usuario.username);
+    await inputBio.type(usuario.bio);
+    await inputPassword.type(usuario.password);
 
     //selección de botón signup de formulario
     const buttonSignUp = await page.$('form > button[type="submit"]');
