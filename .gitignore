@@ -106,3 +106,5 @@ dist
 # Archivos propios del desarrollo
 casas.json
 *.csv
+
+.parcel-cache
