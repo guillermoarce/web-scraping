@@ -1,3 +1,5 @@
+const PaginaFeed = require('./paginaFeed');
+
 const SELECTOR_EMAIL = 'form > input[name="email"]';
 const SELECTOR_NOMBRE = 'form > input[name="nombre"]';
 const SELECTOR_USERNAME = 'form > input[name="username"]';
@@ -34,6 +36,8 @@ class PaginaSignup {
          * Código optimizado, simil arriba 
          */
         await this.page.click(SELECTOR_BOTON_SUBMIT);
+
+        return new PaginaFeed(this.page);
     }
 
 }

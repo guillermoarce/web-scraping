@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "parcel build ./src/generador-imagenes/index.html",
-    "start": "parcel serve ./src/generador-imagenes/index.html"
+    "start": "parcel serve ./src/generador-imagenes/index.html",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
