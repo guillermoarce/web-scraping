@@ -8,6 +8,7 @@ class PaginaBase {
     async verificarErrorEsMostrado(){
         await this.page.waitForSelector(SELECTOR_CAJA_ERROR, {visible: true});
     }
+
 }
 
 module.exports = PaginaBase;
