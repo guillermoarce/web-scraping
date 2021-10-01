@@ -1,7 +1,7 @@
 // const puppeteer = require('puppeteer');
 const { SIGNUP_URL } = require('../configuracion/url');
 const PaginaSignup = require('../paginas/paginaSignup');
-const { generarUsuario } = require('../generadorData');
+const { generarUsuario } = require('../data/generadorData');
 const { crearPagina } = require('../paginas/fabricaPaginas');
 const TIMEOUT_INICIALIZA_BROWSER = 15000; //15 Segundos
 

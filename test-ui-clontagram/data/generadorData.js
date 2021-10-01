@@ -15,6 +15,11 @@ function generarUsuario() {
     }
 }
 
+function generarStringRandomizado() {
+    return crypto.randomBytes(12).toString('hex');
+}
+
 module.exports = {
-    generarUsuario
+    generarUsuario,
+    generarStringRandomizado
 }
