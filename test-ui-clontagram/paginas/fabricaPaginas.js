@@ -16,6 +16,8 @@ async function crearPagina ({
     return { browser, page}
 }
 
+
+
 module.exports = {
     crearPagina
 }

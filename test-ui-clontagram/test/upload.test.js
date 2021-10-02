@@ -21,14 +21,14 @@ afterEach( async () => {
 });
 
 describe('Upload de clontagram', () => {
-    // test('Hacer click en el icono de camara, debe llevar al usuario a la pagina /upload', async () => {
-    //     await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
-    //     await paginaLogin.clickLogin();
-    //     const paginaUpload = await clickIconoCamara(contexto.page);
-    //     await paginaUpload.verificarPaginaUploadCorrecta();
+    test('Hacer click en el icono de camara, debe llevar al usuario a la pagina /upload', async () => {
+        await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
+        await paginaLogin.clickLogin();
+        const paginaUpload = await clickIconoCamara(contexto.page);
+        await paginaUpload.verificarPaginaUploadCorrecta();
 
-    //     //hacer click icono de la camara
-    // }, TIMEOUT_INICIALIZA_BROWSER);
+        //hacer click icono de la camara
+    }, TIMEOUT_INICIALIZA_BROWSER);
 
     test ('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
         await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
