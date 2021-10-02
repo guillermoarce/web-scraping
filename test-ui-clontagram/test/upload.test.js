@@ -1,19 +1,38 @@
 const path = require('path');
-const { LOGIN_URL } = require('../configuracion/url');
+const { LOGIN_URL, BASE_URL } = require('../configuracion/url');
 const { CREDENCIALES_VALIDAS, CREDENCIALES_EMAIL_NO_EXISTE, CREDENCIALES_PASSWORD_INCORRECTO, CREDENCIALES_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS } = require('../data/credenciales');
 const { generarStringRandomizado } = require('../data/generadorData');
 const { clickIconoCamara } = require('../paginas/barraNavegacion');
-const { crearPagina } = require('../paginas/fabricaPaginas');
-const PaginaLogin = require('../paginas/paginaLogin');
+const { crearPagina, crearPaginaQueRequiereAutentificacion } = require('../paginas/fabricaPaginas');
+// No es necesario con la opcion optimizada
+// const PaginaLogin = require('../paginas/paginaLogin');
 const TIMEOUT_INICIALIZA_BROWSER = 25000; //15 Segundos
 // const CAPTION = 'fOTO DEL DIA';
 const PATH_IMAGEN_A_SUBIR = path.join(__dirname, '..','data','imagen.jpg');
 
-let contexto, paginaLogin;
+let contexto;
 
-beforeEach( async () => {    
-    contexto = await crearPagina({url:LOGIN_URL, browserConfig: {headless: false, slowMo: 30} });
-    paginaLogin = new PaginaLogin(contexto.page);
+beforeEach( async () => { 
+    //opcion 1 de hacer las cosas   
+    // contexto = await crearPagina({
+    //     url:LOGIN_URL, 
+    //     browserConfig: {
+    //         headless: false, 
+    //         slowMo: 10
+    //     }
+    // });
+
+    //opcion optimizada, previamente debe estar autenticado
+    contexto = await crearPaginaQueRequiereAutentificacion({
+        url: BASE_URL, 
+        credenciales: CREDENCIALES_VALIDAS,
+        browserConfig: {
+            headless: false, 
+            slowMo: 10
+        }
+    });
+    // no es necesario con la opcion optimizada
+    // paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZA_BROWSER);
 
 afterEach( async () => {
@@ -22,8 +41,9 @@ afterEach( async () => {
 
 describe('Upload de clontagram', () => {
     test('Hacer click en el icono de camara, debe llevar al usuario a la pagina /upload', async () => {
-        await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
-        await paginaLogin.clickLogin();
+        // no es necesario con la opcion optimizada
+        // await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
+        // await paginaLogin.clickLogin();
         const paginaUpload = await clickIconoCamara(contexto.page);
         await paginaUpload.verificarPaginaUploadCorrecta();
 
@@ -31,8 +51,9 @@ describe('Upload de clontagram', () => {
     }, TIMEOUT_INICIALIZA_BROWSER);
 
     test ('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
-        await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
-        await paginaLogin.clickLogin();
+        // no es necesario con la opcion optimizada
+        // await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
+        // await paginaLogin.clickLogin();
         const paginaUpload = await clickIconoCamara(contexto.page);
         // 1. poner caption
         const captionRandom = generarStringRandomizado();
