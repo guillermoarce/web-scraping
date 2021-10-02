@@ -1,3 +1,7 @@
+/**
+ * cambios realizados por error 'cambios de carrera', tiene realización a que el DOM de la pagina no se actualiza antes de evaluar.
+ * 
+ */
 const path = require('path');
 const { LOGIN_URL, POST_EXISTENTE_URL } = require('../configuracion/url');
 const { CREDENCIALES_USUARIO_LIKE } = require('../data/credenciales');
@@ -8,15 +12,14 @@ const { crearPaginaQueRequiereAutentificacion } = require('../paginas/fabricaPag
 const PaginaPost = require('../paginas/paginaPost');
 const TIMEOUT_INICIALIZA_BROWSER = 25000; //15 Segundos
 // const CAPTION = 'fOTO DEL DIA';
-const PATH_IMAGEN_A_SUBIR = path.join(__dirname, '..','data','imagen.jpg');
-const RUTA_LIKES = '/likes';
-const RUTA_COMENTARIOS = '/comentarios';
+// const RUTA_LIKES = '/likes';
+// const RUTA_COMENTARIOS = '/comentarios';
 
 let contexto, paginaPost;
 
 beforeEach( async () => {    
     contexto = await crearPaginaQueRequiereAutentificacion({url:POST_EXISTENTE_URL, credenciales:CREDENCIALES_USUARIO_LIKE,
-        browserConfig: {headless: false, slowMo: 10, defaultViewport: {width: 1600, height: 1000} }});
+        browserConfig: {headless: true, slowMo: 10, defaultViewport: {width: 1600, height: 1000} }});
     paginaPost = new PaginaPost(contexto.page);
 }, TIMEOUT_INICIALIZA_BROWSER);
 
@@ -49,21 +52,25 @@ describe('Vista Post de Clontagram', () => {
 
         //3. Damos like, verificamos que corazon es rojo
         await Promise.all([
-            vertificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+            //vertificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+            paginaPost.esperarQueEstadoLikeCambie(),
             paginaPost.clickLike(),
         ])
 
-        let corazonEstaLleno = await paginaPost.verificarCorazonLleno();
-        expect(corazonEstaLleno).toEqual(true);
+        // ya no es necesario
+        // let corazonEstaLleno = await paginaPost.verificarCorazonLleno();
+        // expect(corazonEstaLleno).toEqual(true);
 
+        // ya no es necesario
         //4. Quitamos like, verificamos corazon no es rojo   
         await Promise.all([
-            vertificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+            // vertificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+            paginaPost.esperarQueEstadoLikeCambie(),
             paginaPost.clickLike(),
         ])
 
-        corazonEstaLleno = await paginaPost.verificarCorazonLleno();
-        expect(corazonEstaLleno).toEqual(false);
+        // corazonEstaLleno = await paginaPost.verificarCorazonLleno();
+        // expect(corazonEstaLleno).toEqual(false);
 
 
     }, TIMEOUT_INICIALIZA_BROWSER);
@@ -75,7 +82,8 @@ describe('Vista Post de Clontagram', () => {
         //2. Dejar un comentario
         // Primero se escucha y luego se realiza la acción
         await Promise.all([
-            vertificarQueLlegaRespuestaDeRuta(RUTA_COMENTARIOS),
+            //vertificarQueLlegaRespuestaDeRuta(RUTA_COMENTARIOS),
+            paginaPost.esperarQueComentarioAparezcaEnElDom(),
             paginaPost.dejarComentario(randomString),
         ]);
 
