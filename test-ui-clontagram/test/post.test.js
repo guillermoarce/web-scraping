@@ -10,20 +10,21 @@ const { clickIconoCamara } = require('../paginas/barraNavegacion');
 const { crearPaginaQueRequiereAutentificacion } = require('../paginas/fabricaPaginas');
 // const PaginaLogin = require('../paginas/paginaLogin');
 const PaginaPost = require('../paginas/paginaPost');
-const TIMEOUT_INICIALIZA_BROWSER = 25000; //15 Segundos
 // const CAPTION = 'fOTO DEL DIA';
 // const RUTA_LIKES = '/likes';
 // const RUTA_COMENTARIOS = '/comentarios';
 
 let contexto, paginaPost;
 
-beforeEach( async () => {    
-    contexto = await crearPaginaQueRequiereAutentificacion({url:POST_EXISTENTE_URL, credenciales:CREDENCIALES_USUARIO_LIKE,
-        browserConfig: {headless: true, slowMo: 10, defaultViewport: {width: 1600, height: 1000} }});
+beforeEach(async () => {
+    contexto = await crearPaginaQueRequiereAutentificacion({
+        url: POST_EXISTENTE_URL, credenciales: CREDENCIALES_USUARIO_LIKE,
+        // browserConfig: { headless: true, slowMo: 10, defaultViewport: { width: 1600, height: 1000 } }
+    });
     paginaPost = new PaginaPost(contexto.page);
-}, TIMEOUT_INICIALIZA_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
-afterEach( async () => {
+afterEach(async () => {
     await contexto.browser.close();
 });
 
@@ -36,7 +37,7 @@ describe('Vista Post de Clontagram', () => {
         // );
 
         // await paginaLogin.clickLogin();
-        
+
         // //esperar hasta que se tiene una respuesta al browser de la ruta /api/usuarios/login
         // await contexto.page.waitForResponse((response) => {
         //     return response.url().includes('/api/usuarios/login');
@@ -73,7 +74,7 @@ describe('Vista Post de Clontagram', () => {
         // expect(corazonEstaLleno).toEqual(false);
 
 
-    }, TIMEOUT_INICIALIZA_BROWSER);
+    }, __TIMEOUT_INICIALIZAR_BROWSER__);
 
     test('Puedo dejar un comentario en un post', async () => {
         //1. Navegar al post
@@ -94,12 +95,12 @@ describe('Vista Post de Clontagram', () => {
 });
 
 //funcion que espera respuesta del servicio api indicado en ruta
-async function vertificarQueLlegaRespuestaDeRuta( ruta ) {
-        //esperar a la respuesta del servidor, /like 
-        await contexto.page.waitForResponse((response) => {
-            return response.url().includes(ruta);
-        });
-    }
+async function vertificarQueLlegaRespuestaDeRuta(ruta) {
+    //esperar a la respuesta del servidor, /like 
+    await contexto.page.waitForResponse((response) => {
+        return response.url().includes(ruta);
+    });
+}
 
 // //funcion que espera respuesta del servicio api /likes
 // async function esperarAQueLlegueRespuestaLike() {

@@ -6,7 +6,10 @@
   "scripts": {
     "build": "parcel build ./src/generador-imagenes/index.html",
     "start": "parcel serve ./src/generador-imagenes/index.html",
-    "test": "jest"
+    "test": "jest",
+    "test-config": "jest --config=test-ui-clontagram/test-config/base.js",
+    "test-desktop": "jest --config=test-ui-clontagram/test-config/desktop.js",
+    "test-mobile": "jest --config=test-ui-clontagram/test-config/mobile.js"
   },
   "repository": {
     "type": "git",

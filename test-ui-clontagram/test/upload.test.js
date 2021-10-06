@@ -6,13 +6,12 @@ const { clickIconoCamara } = require('../paginas/barraNavegacion');
 const { crearPagina, crearPaginaQueRequiereAutentificacion } = require('../paginas/fabricaPaginas');
 // No es necesario con la opcion optimizada
 // const PaginaLogin = require('../paginas/paginaLogin');
-const TIMEOUT_INICIALIZA_BROWSER = 25000; //15 Segundos
 // const CAPTION = 'fOTO DEL DIA';
-const PATH_IMAGEN_A_SUBIR = path.join(__dirname, '..','data','imagen.jpg');
+const PATH_IMAGEN_A_SUBIR = path.join(__dirname, '..', 'data', 'imagen.jpg');
 
 let contexto;
 
-beforeEach( async () => { 
+beforeEach(async () => {
     //opcion 1 de hacer las cosas   
     // contexto = await crearPagina({
     //     url:LOGIN_URL, 
@@ -24,18 +23,18 @@ beforeEach( async () => {
 
     //opcion optimizada, previamente debe estar autenticado
     contexto = await crearPaginaQueRequiereAutentificacion({
-        url: BASE_URL, 
+        url: BASE_URL,
         credenciales: CREDENCIALES_VALIDAS,
         browserConfig: {
-            headless: false, 
+            headless: false,
             slowMo: 10
         }
     });
     // no es necesario con la opcion optimizada
     // paginaLogin = new PaginaLogin(contexto.page);
-}, TIMEOUT_INICIALIZA_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
-afterEach( async () => {
+afterEach(async () => {
     await contexto.browser.close();
 });
 
@@ -48,9 +47,9 @@ describe('Upload de clontagram', () => {
         await paginaUpload.verificarPaginaUploadCorrecta();
 
         //hacer click icono de la camara
-    }, TIMEOUT_INICIALIZA_BROWSER);
+    }, __TIMEOUT_INICIALIZAR_BROWSER__);
 
-    test ('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
+    test('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
         // no es necesario con la opcion optimizada
         // await paginaLogin.llenarFormularioLogin(CREDENCIALES_VALIDAS);
         // await paginaLogin.clickLogin();
@@ -60,12 +59,12 @@ describe('Upload de clontagram', () => {
 
         await paginaUpload.llenarCaption(captionRandom);//CAPTION);
         // 2. elegir foto
-        await paginaUpload.elegirFotoUpload(PATH_IMAGEN_A_SUBIR);        
+        await paginaUpload.elegirFotoUpload(PATH_IMAGEN_A_SUBIR);
         //Verficar que imagen está disponible para postear (subio al servidor)
         await paginaUpload.verificarImagenDisponibleParaPost();
         //3. Click botón post
         const paginaFeed = await paginaUpload.clickPostImagen();
-        
+
         //4. Verificar que estamos en el feed
         const dataUsuario = await paginaFeed.obtenerUsuarioPrimerPost();
         expect(dataUsuario).toEqual({
@@ -76,5 +75,5 @@ describe('Upload de clontagram', () => {
         //5. Vertificar que nuestro post que subimos esta visible
         const caption = await paginaFeed.obtenerCaptionPrimerPost();
         expect(caption).toEqual(`${CREDENCIALES_VALIDAS.username} ${captionRandom}`)
-    }, TIMEOUT_INICIALIZA_BROWSER);
+    }, __TIMEOUT_INICIALIZAR_BROWSER__);
 });
